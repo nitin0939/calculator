@@ -1,14 +1,34 @@
 package com.example.calculatordemo.bean;
 
+import ch.lambdaj.function.convert.Converter;
+
+import java.util.List;
+
+import static ch.lambdaj.Lambda.*;
 public class Calculator {
     public static int add(String text){
         if(text.isEmpty()){
             return 0;
-        }else if(text.contains(",")){
-            String[] tokens=text.split(",");
-            return Integer.parseInt(tokens[0])+Integer.parseInt(tokens[1]);
         }else{
-            return Integer.parseInt(text);
+            String[] tokens=tokenize(text);
+            List<Integer> numbers = convert(tokens, toInt());
+            return sum(numbers).intValue();
         }
+    }
+
+    private static String[] tokenize(String text) {
+        return text.split(",");
+    }
+
+    private static Converter<String, Integer> toInt(){
+        return new Converter<String,Integer>() {
+            public Integer convert(String s) {
+            return toInt(s);
+        }
+        };
+    }
+
+    private static int toInt(String text) {
+        return Integer.parseInt(text);
     }
 }
