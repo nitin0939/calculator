@@ -3,6 +3,8 @@ package com.example.calculatordemo.bean;
 import ch.lambdaj.function.convert.Converter;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static ch.lambdaj.Lambda.*;
 public class Calculator {
@@ -17,8 +19,28 @@ public class Calculator {
     }
 
     private static String[] tokenize(String text) {
+        if(usesCustomDelimiterSyntax(text)){
+            return splitUsingCustomDelimiterSyntax(text);
+        }else {
+            return splitUsingNewLinesAndCommas(text);
+        }
+    }
+
+    private static boolean usesCustomDelimiterSyntax(String text) {
+        return text.startsWith("//");
+    }
+
+    private static String[] splitUsingNewLinesAndCommas(String text) {
         String tokens[]=text.split(",|\n");
         return tokens;
+    }
+
+    private static String[] splitUsingCustomDelimiterSyntax(String text) {
+        Matcher matcher = Pattern.compile("//(.)\n(.*)").matcher(text);
+        matcher.matches();
+        String customDelimiter = matcher.group(1);
+        String numbers = matcher.group(2);
+        return numbers.split(customDelimiter);
     }
 
     private static Converter<String, Integer> toInt(){

@@ -31,4 +31,9 @@ public class CalculatorTest {
     public void shouldAcceptNewLineAsValidDelimiter(){
         assertEquals(6,Calculator.add("1,2\n3"));
     }
+
+    @Test
+    public void shouldAcceptCustomDelimiterSyntax(){
+        assertEquals(3,Calculator.add("//;\n1;2"));
+    }
 }
