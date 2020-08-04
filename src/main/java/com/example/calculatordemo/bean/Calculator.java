@@ -17,7 +17,8 @@ public class Calculator {
     }
 
     private static String[] tokenize(String text) {
-        return text.split(",");
+        String tokens[]=text.split(",|\n");
+        return tokens;
     }
 
     private static Converter<String, Integer> toInt(){
