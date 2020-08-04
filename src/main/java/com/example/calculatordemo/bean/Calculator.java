@@ -1,6 +1,7 @@
 package com.example.calculatordemo.bean;
 
 import ch.lambdaj.function.convert.Converter;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,12 +10,18 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.*;
 import static ch.lambdaj.Lambda.*;
+@Component("calculatorDemo")
 public class Calculator {
     public static int add(String text){
-        String[] tokens=tokenize(text);
-        List<Integer> numbers = convert(tokens, toInt());
+        List<Integer> numbers=parseNumbers(text);
         ensureAllNonNegatives(numbers);
         return sum(numbers).intValue();
+    }
+
+    private static List<Integer> parseNumbers(String text) {
+        String[] tokens=tokenize(text);
+        List<Integer> numbers = convert(tokens, toInt());
+        return numbers;
     }
 
     private static void ensureAllNonNegatives(List<Integer> numbers) {
