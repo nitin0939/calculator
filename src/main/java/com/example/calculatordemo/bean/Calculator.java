@@ -5,7 +5,9 @@ import ch.lambdaj.function.convert.Converter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.hamcrest.Matchers.*;
 import static ch.lambdaj.Lambda.*;
 public class Calculator {
     public static int add(String text){
@@ -14,6 +16,10 @@ public class Calculator {
         }else{
             String[] tokens=tokenize(text);
             List<Integer> numbers = convert(tokens, toInt());
+            List<Integer> negatives = numbers.stream().filter(number -> number <0).collect(Collectors.toList());
+            if(negatives.size() > 0){
+                throw  new RuntimeException();
+            }
             return sum(numbers).intValue();
         }
     }

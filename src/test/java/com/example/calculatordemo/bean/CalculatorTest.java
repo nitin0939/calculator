@@ -41,4 +41,14 @@ public class CalculatorTest {
     public void customDelimiterCouldBeAlsoRegexSpecialChar(){
         assertEquals(3,Calculator.add("//.\n1.2"));
     }
+
+    @Test
+    public void shouldRaiseExceptionOnNegation(){
+        try {
+            Calculator.add("-1,2,3");
+            fail("Exception expected.");
+        }catch (RuntimeException exception){
+
+        }
+    }
 }
